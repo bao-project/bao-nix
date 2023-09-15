@@ -35,7 +35,8 @@ Just execute:
 
 **Note:** For now, only qemu-aarch64-virt is supported [Appendix I](#Appendix-I).
 ```
-nix-build
+nix-build --argstr platform qemu-aarch64-virt --argstr list_tests TEST_A --argstr list_suites ABCD
+
 ```
 
 And all the needed source and images will be automatically downloaded and built. 
