@@ -4,7 +4,7 @@
 , python3
 , python3Packages
 , rsync
-, platform
+, platform_cfg
 , list_tests
 , list_suites
 , bao-tests
@@ -16,6 +16,10 @@ stdenv.mkDerivation rec {
     # MUT: bao-hypervisor
     pname = "baremetal-bao-tf";
     version = "1.0.0";
+
+    platform = platform_cfg.platform_name;
+    plat_arch = platform_cfg.platforms-arch.${platform};
+    plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
      src = fetchFromGitHub {
         owner = "bao-project";
@@ -47,8 +51,8 @@ stdenv.mkDerivation rec {
         echo "Platform: ${platform}"
         echo "Suites: ${list_suites}"
         echo "Testes: ${list_tests}"
-        export ARCH=aarch64
-        export CROSS_COMPILE=aarch64-none-elf-
+        export ARCH=${plat_arch}
+        export CROSS_COMPILE=${plat_toolchain}
         export TESTF_TESTS_DIR=$out/tests
         export TESTF_REPO_DIR=$out/bao-tests
         chmod -R u+w bao-tests #make sure we can write to bao-tests
