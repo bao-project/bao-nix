@@ -10,7 +10,7 @@
 , rsync
 , guest
 , demos
-, platform
+, platform_cfg
 }:
 
 stdenv.mkDerivation rec {
@@ -18,6 +18,10 @@ stdenv.mkDerivation rec {
     # MUT: bao-hypervisor
     pname = "bao-tf";
     version = "1.0.0";
+
+    platform = platform_cfg.platform_name;
+    plat_arch = platform_cfg.platforms-arch.${platform};
+    plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
     src = ../../../../.;
     
@@ -32,8 +36,8 @@ stdenv.mkDerivation rec {
     '';
 
     buildPhase = ''
-        export ARCH=aarch64
-        export CROSS_COMPILE=aarch64-none-elf-
+        export ARCH=${plat_arch}
+        export CROSS_COMPILE=${plat_toolchain}
         export DEMO=baremetal
         mkdir -p ./config
         cp -L ${demos}/demos/$DEMO/configs/${platform}.c \
