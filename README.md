@@ -1,27 +1,21 @@
 # Bao Nix Packages  
 
-This repo provides a set of nix recipes (i.e., packages) to be used by 
-[bao-tests](https://github.com/bao-project/bao-tests).
-
----
-
-**NOTE**
-
-If you have any doubts, questions, feedback, or suggestions regarding 
-this guide, please raise an issue in GitHub or contact us via 
-info@bao-project.org.
+This repo provides a set of nix recipes (i.e., packages) to be used by
+[bao-tests](https://github.com/bao-project/bao-tests). The recipes are used to 
+define all necessary tools and dependencies required to build the software stack
+, e.g., compilers, cross-compilers, build utilities, and specific libraries.
 
 ---
 
 ## -1. Install dependencies
 
-Install Nix
+Install Nix:
 
 ```
 curl -L https://nixos.org/nix/install | sh -s -- --daemon
 ```
 
-## 1. Setup base environment
+## 1. Setup environment
 
 Clone this repo and cd to it:
 
@@ -29,9 +23,21 @@ Clone this repo and cd to it:
 git clone https://github.com/bao-project/bao-nix.git
 cd bao-nix
 ```
+
+Or add it as a submodule:
+
+```
+git submodule add https://github.com/bao-project/bao-nix.git
+cd bao-nix
+```
+
 ---
-## 2. Build environment
-Just execute:
+<!-- ## 2. Use the Packages
+
+You need to create a defautl.nix recipe. This recipe should call several 
+packages to define a test setup.  -->
+
+<!-- Just execute:
 
 **Note:** For now, only qemu-aarch64-virt is supported [Appendix I](#Appendix-I).
 ```
@@ -55,9 +61,10 @@ you can start it with:
 In this case, if you don't have qemu for the target architecture installed, 
 it will build it for you.
 
----
+--- -->
 
-## Appendix I
+<!-- ## Appendix I -->
+## 3. Supported Platforms
 
 | | PLATFORM | ARCH
 |--|--|--|
