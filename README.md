@@ -1,6 +1,6 @@
-# Bao Tests Firmware Infrastructure  
+# Bao Nix Packages  
 
-This repo provides the required firmware to run 
+This repo provides a set of nix recipes (i.e., packages) to be used by 
 [bao-tests](https://github.com/bao-project/bao-tests).
 
 ---
