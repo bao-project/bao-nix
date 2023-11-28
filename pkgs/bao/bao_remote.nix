@@ -7,6 +7,7 @@
 , toolchain
 , bao_cfg
 , platform_cfg
+, guests
 }:
 
 stdenv.mkDerivation rec {
@@ -24,12 +25,18 @@ stdenv.mkDerivation rec {
         sha256 = "sha256-pCsVpSOuCCQ86HbLbyGpi6nHi5dxa7hbQIuoemE/fSA=";
     };
     
-    nativeBuildInputs = [ toolchain ]; #build time dependencies
+    nativeBuildInputs = [ toolchain guests ]; #build time dependencies
 
     buildPhase = ''
         export ARCH=${plat_arch}
         export CROSS_COMPILE=${plat_toolchain}
 
+        # Load guest images
+        mkdir -p ./guests
+        for guest in ${toString guests}; do
+            cp $guest/bin/*.bin ./guests/
+        done
+        
         mkdir -p ./config
         cp -L ${demos}/demos/$DEMO/configs/${platform}.c \
                 ./config/$DEMO.c
