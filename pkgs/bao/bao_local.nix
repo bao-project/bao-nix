@@ -41,12 +41,14 @@ stdenv.mkDerivation rec {
         for guest in ${toString guests}; do
             cp $guest/bin/*.bin ./guests/
         done
-        
+
+        echo "Guests dir:"
+        ls ./guests
+
+        # Load bao config
         mkdir -p ./config
-        cp -L ${demos}/demos/$DEMO/configs/${platform}.c \
-                ./config/$DEMO.c
-        mkdir -p ./$DEMO
-        cp -L ${guest}/bin/baremetal.bin ./$DEMO
+        echo "${bao_cfg}" > ./config/config.c
+
         make PLATFORM=${platform}\
              CONFIG_REPO=./config\
              CONFIG=$DEMO\
