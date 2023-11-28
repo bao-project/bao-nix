@@ -12,7 +12,7 @@
 stdenv.mkDerivation rec {
     # Derivation to build bao to run the bao test framework (as a guest)
     # MUT: bao-hypervisor
-    pname = "bao-tf";
+    pname = "bao-local";
     version = "1.0.0";
 
     platform = platform_cfg.platform_name;
