@@ -8,6 +8,7 @@
 , toolchain
 , bao_srcs_path
 , platform_cfg
+, guests
 }:
 
 stdenv.mkDerivation rec {
@@ -22,7 +23,7 @@ stdenv.mkDerivation rec {
 
     src = bao_srcs_path;
     
-    nativeBuildInputs = [ toolchain ]; #build time dependencies
+    nativeBuildInputs = [ toolchain guests ]; #build time dependencies
     buildInputs = [ rsync ];
 
     unpackPhase = ''
@@ -34,6 +35,12 @@ stdenv.mkDerivation rec {
     buildPhase = ''
         export ARCH=${plat_arch}
         export CROSS_COMPILE=${plat_toolchain}
+        
+        # Load guest images
+        mkdir -p ./guests
+        for guest in ${toString guests}; do
+            cp $guest/bin/*.bin ./guests/
+        done
         
         mkdir -p ./config
         cp -L ${demos}/demos/$DEMO/configs/${platform}.c \
