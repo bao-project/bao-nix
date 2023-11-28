@@ -28,8 +28,7 @@ stdenv.mkDerivation rec {
     unpackPhase = ''
         mkdir -p $out
         #copy everything except tests
-        rsync -r --exclude 'tests' $src/ $out 
-        cd $out
+        rsync -r $src/ ./ 
     '';
 
     buildPhase = ''
