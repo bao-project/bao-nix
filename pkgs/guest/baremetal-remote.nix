@@ -4,11 +4,12 @@
 { stdenv
 , fetchFromGitHub
 , toolchain
+, guest_name ? "baremetal"
 , platform_cfg
 }:
 
 stdenv.mkDerivation rec {
-    pname = "baremetal-guest";
+    pname = guest_name;
     version = "1.0.0";
 
     platform = platform_cfg.platform_name;
@@ -32,7 +33,7 @@ stdenv.mkDerivation rec {
     
     installPhase = ''
         mkdir -p $out/bin
-        cp ./build/${platform}/baremetal.bin $out/bin
+        cp ./build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
     '';
 
 }
