@@ -5,8 +5,7 @@
 , fetchFromGitHub
 , fetchurl
 , toolchain
-, guest
-, demos
+, bao_cfg
 , platform_cfg
 }:
 
@@ -25,7 +24,7 @@ stdenv.mkDerivation rec {
         sha256 = "sha256-pCsVpSOuCCQ86HbLbyGpi6nHi5dxa7hbQIuoemE/fSA=";
     };
     
-    nativeBuildInputs = [ toolchain guest demos]; #build time dependencies
+    nativeBuildInputs = [ toolchain ]; #build time dependencies
 
     buildPhase = ''
         export ARCH=${plat_arch}
