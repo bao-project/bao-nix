@@ -44,8 +44,8 @@ stdenv.mkDerivation rec {
         # Build Bao
         make PLATFORM=${platform}\
              CONFIG_REPO=./config\
-             CONFIG=$DEMO\
-             CPPFLAGS=-DBAO_DEMOS_WRKDIR_IMGS=./$DEMO
+             CONFIG=config\
+             CPPFLAGS=-DBAO_WRKDIR_IMGS=./guests
     '';
     
     installPhase = ''
