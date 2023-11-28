@@ -10,7 +10,7 @@
 }:
 
 stdenv.mkDerivation rec {
-    pname = "bao";
+    pname = "bao-remote";
     version = "1.0.0";
 
     platform = platform_cfg.platform_name;
