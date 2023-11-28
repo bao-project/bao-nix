@@ -34,7 +34,7 @@ stdenv.mkDerivation rec {
     buildPhase = ''
         export ARCH=${plat_arch}
         export CROSS_COMPILE=${plat_toolchain}
-        export DEMO=baremetal
+        
         mkdir -p ./config
         cp -L ${demos}/demos/$DEMO/configs/${platform}.c \
                 ./config/$DEMO.c
