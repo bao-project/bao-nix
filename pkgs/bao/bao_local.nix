@@ -4,12 +4,8 @@
 { stdenv
 , fetchFromGitHub
 , fetchurl
-, toolchain
-, python3
-, python3Packages
 , rsync
-, guest
-, demos
+, toolchain
 , platform_cfg
 }:
 
@@ -25,8 +21,8 @@ stdenv.mkDerivation rec {
 
     src = ../../../../.;
     
-    nativeBuildInputs = [ toolchain guest demos]; #build time dependencies
-    buildInputs = [python3 python3Packages.numpy rsync];
+    nativeBuildInputs = [ toolchain ]; #build time dependencies
+    buildInputs = [ rsync ];
 
     unpackPhase = ''
         mkdir -p $out
