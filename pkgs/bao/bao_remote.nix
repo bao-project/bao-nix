@@ -49,8 +49,8 @@ stdenv.mkDerivation rec {
     '';
     
     installPhase = ''
-        mkdir -p $out/bin
-        cp ./bin/${platform}/$DEMO/bao.bin $out/bin
+        mkdir -p $out/bao
+        cp -r ./bin/${platform}/config/bao.bin $out/bao
     '';
 
 }
