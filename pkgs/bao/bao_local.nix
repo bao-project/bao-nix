@@ -6,6 +6,7 @@
 , fetchurl
 , rsync
 , toolchain
+, bao_srcs_path
 , platform_cfg
 }:
 
@@ -19,7 +20,7 @@ stdenv.mkDerivation rec {
     plat_arch = platform_cfg.platforms-arch.${platform};
     plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
-    src = ../../../../.;
+    src = bao_srcs_path;
     
     nativeBuildInputs = [ toolchain ]; #build time dependencies
     buildInputs = [ rsync ];
