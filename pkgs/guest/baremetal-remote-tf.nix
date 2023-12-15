@@ -7,6 +7,7 @@
 , python3
 , python3Packages
 , rsync
+, guest_name ? "baremetal"
 , platform_cfg
 , list_tests
 , list_suites
@@ -17,7 +18,7 @@
 stdenv.mkDerivation rec {
     # Derivation to build the baremetal-guest to run the bao test framework
     # MUT: bao-hypervisor
-    pname = "baremetal-bao-tf";
+    pname = guest_name;
     version = "1.0.0";
 
     platform = platform_cfg.platform_name;
