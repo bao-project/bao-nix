@@ -1,0 +1,14 @@
+/dts-v1/;
+/ {
+    platform = "qemu-aarch64-virt";
+    log_echo = <1>;
+
+    test_config {
+        recipe_test {
+            nix_file = "default.nix";
+            suites = "HELLO";
+            tests = "";
+            log_level = "0";
+        };
+    };
+};
