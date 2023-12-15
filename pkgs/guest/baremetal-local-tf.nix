@@ -33,10 +33,7 @@ stdenv.mkDerivation rec {
 
     unpackPhase = ''
         mkdir -p $out
-        #copy everything except tests
-        rsync -r --exclude 'tests' $src/ $out 
-        cp -r ${bao-tests} $out/bao-tests
-        cp -r ${tests} $out/tests
+        rsync -r $src/ $out
         cd $out
     '';
 
