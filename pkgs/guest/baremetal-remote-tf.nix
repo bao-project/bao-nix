@@ -14,6 +14,7 @@
 , bao-tests
 , tests_srcs
 , tests
+, testf_patch ? " "
 }:
 
 stdenv.mkDerivation rec {
@@ -33,7 +34,7 @@ stdenv.mkDerivation rec {
         sha256 = "sha256-aiKraDtjv+n/cXtdYdNDKlbzOiBxYTDrMT8bdG9B9vU=";
     };
     
-    patch = ../../../baremetal.patch;
+    patch = testf_patch;
 
     nativeBuildInputs = [ toolchain]; #build time dependencies
     buildInputs = [python3 python3Packages.numpy rsync];
