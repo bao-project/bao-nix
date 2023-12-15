@@ -13,7 +13,6 @@
 , list_suites
 , bao-tests
 , tests_srcs
-, tests
 , testf_patch ? " "
 }:
 
