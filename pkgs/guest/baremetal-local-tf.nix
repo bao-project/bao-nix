@@ -13,6 +13,7 @@
 , list_suites
 , bao-tests
 , tests
+, baremetal_srcs_path
 }:
 
 stdenv.mkDerivation rec {
@@ -25,7 +26,7 @@ stdenv.mkDerivation rec {
     plat_arch = platform_cfg.platforms-arch.${platform};
     plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
-    src = ../../../../.;
+    src = baremetal_srcs_path;
 
     nativeBuildInputs = [ toolchain]; #build time dependencies
     buildInputs = [python3 python3Packages.numpy rsync];
