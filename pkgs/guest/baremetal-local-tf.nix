@@ -11,8 +11,6 @@
 , platform_cfg
 , list_tests
 , list_suites
-, bao-tests
-, tests
 , baremetal_srcs_path
 }:
 
