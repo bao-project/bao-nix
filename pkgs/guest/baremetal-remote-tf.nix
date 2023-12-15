@@ -12,6 +12,7 @@
 , list_tests
 , list_suites
 , bao-tests
+, tests_srcs
 , tests
 }:
 
@@ -39,11 +40,14 @@ stdenv.mkDerivation rec {
 
     unpackPhase = ''
         mkdir -p $out
-        #copy everything except tests
-        rsync -r $src/ $out 
-        cp -r ${bao-tests} $out/bao-tests
-        cp -r ${tests} $out/tests
-        chmod -R u+w $out #make sure we can write to src to apply patches
+        rsync -r $src/ $out
+        chmod -R u+w $out
+        mkdir -p $out/tests/bao-tests
+        cp -r ${bao-tests}/* $out/tests/bao-tests
+        cp -r ${tests_srcs}/configs $out/tests/
+        cp -r ${tests_srcs}/src $out/tests/
+        chmod -R u+w $out/tests/
+        mv $out/tests/src/testf_entry.c $out/tests/bao-tests/src/
         cd $out
     '';
 
