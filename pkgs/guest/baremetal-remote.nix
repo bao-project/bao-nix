@@ -30,7 +30,7 @@ stdenv.mkDerivation rec {
         export CROSS_COMPILE=${plat_toolchain}
         make PLATFORM=${platform}
     '';
-    
+
     installPhase = ''
         mkdir -p $out/bin
         cp ./build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
