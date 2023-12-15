@@ -67,7 +67,7 @@ stdenv.mkDerivation rec {
     
     installPhase = ''
         mkdir -p $out/bin
-        cp ./build/${platform}/baremetal.bin $out/bin
+        cp ./build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
     '';
     
 }
