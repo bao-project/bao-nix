@@ -43,11 +43,10 @@ stdenv.mkDerivation rec {
         rsync -r $src/ $out
         chmod -R u+w $out
         mkdir -p $out/tests/bao-tests
+        mkdir -p $out/tests/src
         cp -r ${bao-tests}/* $out/tests/bao-tests
-        cp -r ${tests_srcs}/configs $out/tests/
-        cp -r ${tests_srcs}/src $out/tests/
+        cp -r ${tests_srcs}/* $out/tests/src
         chmod -R u+w $out/tests/
-        mv $out/tests/src/testf_entry.c $out/tests/bao-tests/src/
         cd $out
     '';
 
