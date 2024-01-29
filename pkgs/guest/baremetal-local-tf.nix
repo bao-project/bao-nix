@@ -11,6 +11,7 @@
 , platform_cfg
 , list_tests
 , list_suites
+, log_level ? "2"
 , baremetal_srcs_path
 }:
 
@@ -41,7 +42,7 @@ stdenv.mkDerivation rec {
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
         chmod -R u+w $out/tests/bao-tests
-        make -C $out PLATFORM=${platform} BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests}
+        make -C $out PLATFORM=${platform} BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} TESTF_LOG_LEVEL=${log_level}
     '';
     
     installPhase = ''
