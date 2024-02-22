@@ -57,7 +57,7 @@ stdenv.mkDerivation rec {
 
     buildPhase = ''
         export ARCH=${plat_arch}
-        export CROSS_COMPILE=${plat_toolchain}
+        export CROSS_COMPILE=${plat_toolchain}-
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
         chmod -R u+w $out/tests/bao-tests
