@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
     plat_arch = platform_cfg.platforms-arch.${platform};
     plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
-    src = bao_srcs_path;
+    srcs = bao_srcs_path;
     
     nativeBuildInputs = [ toolchain guests ]; #build time dependencies
     buildInputs = [ rsync ];
