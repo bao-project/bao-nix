@@ -27,7 +27,7 @@ stdenv.mkDerivation rec {
 
     buildPhase = ''
         export ARCH=${plat_arch}
-        export CROSS_COMPILE=${plat_toolchain}
+        export CROSS_COMPILE=${plat_toolchain}-
         make PLATFORM=${platform}
     '';
 
