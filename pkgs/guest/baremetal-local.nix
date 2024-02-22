@@ -9,7 +9,10 @@
 , rsync
 , guest_name ? "baremetal"
 , platform_cfg
-, baremetal_srcs_path
+, baremetal_srcs_path ? " "
+, list_tests ? " "
+, list_suites ? " "
+, log_level ? "2"
 }:
 
 stdenv.mkDerivation rec {
@@ -22,15 +25,22 @@ stdenv.mkDerivation rec {
     plat_arch = platform_cfg.platforms-arch.${platform};
     plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
-    src = baremetal_srcs_path;
+    guest_srcs = if baremetal_srcs_path == " " || baremetal_srcs_path == null then
+        fetchFromGitHub {
+            owner = "bao-project";
+            repo = "bao-baremetal-guest";
+            rev = "4010db4ba5f71bae72d4ceaf4efa3219812c6b12"; # branch demo
+            sha256 = "sha256-aiKraDtjv+n/cXtdYdNDKlbzOiBxYTDrMT8bdG9B9vU=";
+        }
+        else
+            baremetal_srcs_path;
 
     nativeBuildInputs = [ toolchain]; #build time dependencies
     buildInputs = [python3 python3Packages.numpy rsync];
 
     unpackPhase = ''
-        mkdir -p $out
-        rsync -r $src/ $out
-        cd $out
+        mkdir -p $out/guest_srcs
+        rsync -r $guest_srcs/ $out/guest_srcs
     '';
 
     buildPhase = ''
@@ -41,7 +51,7 @@ stdenv.mkDerivation rec {
 
     installPhase = ''
         mkdir -p $out/bin
-        cp ./build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
+        cp $out/guest_srcs/build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
     '';
 
 }
