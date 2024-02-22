@@ -23,16 +23,16 @@
   };
 
   platforms-toolchain = {
-    qemu-aarch64-virt = "aarch64-none-elf-";
-    zcu102 = "aarch64-none-elf-";
-    zcu104 = "aarch64-none-elf-";
-    imx8qm = "aarch64-none-elf-";
-    tx2 = "aarch64-none-elf-";
-    rpi4 = "aarch64-none-elf-";
-    fvp-a = "aarch64-none-elf-";
-    fvp-r = "aarch64-none-elf-";
-    fvp-a-aarch32 = "arm-none-eabi-";
-    fvp-r-aarch32 = "arm-none-eabi-";
-    qemu-riscv64-virt = "riscv64-unknown-elf-";
+    qemu-aarch64-virt = "aarch64-none-elf";
+    zcu102 = "aarch64-none-elf";
+    zcu104 = "aarch64-none-elf";
+    imx8qm = "aarch64-none-elf";
+    tx2 = "aarch64-none-elf";
+    rpi4 = "aarch64-none-elf";
+    fvp-a = "aarch64-none-elf";
+    fvp-r = "aarch64-none-elf";
+    fvp-a-aarch32 = "arm-none-eabi";
+    fvp-r-aarch32 = "arm-none-eabi";
+    qemu-riscv64-virt = "riscv64-unknown-elf";
   };
 }
