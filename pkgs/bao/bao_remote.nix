@@ -4,6 +4,7 @@
 { stdenv
 , fetchFromGitHub
 , fetchurl
+, rsync
 , toolchain
 , bao_cfg
 , platform_cfg
@@ -26,20 +27,27 @@ stdenv.mkDerivation rec {
     };
     
     nativeBuildInputs = [ toolchain guests ]; #build time dependencies
+    buildInputs = [ rsync ];
 
+
+    unpackPhase = ''
+        mkdir -p $out
+        mkdir -p $out/srcs
+        mkdir -p $out/configs
+        mkdir -p $out/guests
+
+        rsync -r $srcs/ $out/srcs
+        cp -r ${bao_cfg_repo}/* $out/configs
+        for guest in ${toString guests}; do
+            cp $guest/bin/*.bin $out/guests/
+        done
+    '';
+    
     buildPhase = ''
+        cd $out/srcs
         export ARCH=${plat_arch}
         export CROSS_COMPILE=${plat_toolchain}-
 
-        # Load guest images
-        mkdir -p ./guests
-        for guest in ${toString guests}; do
-            cp $guest/bin/*.bin ./guests/
-        done
-
-        # Load bao config
-        mkdir -p ./config
-        echo "${bao_cfg}" > ./config/config.c
 
         # Build Bao
         make PLATFORM=${platform}\
