@@ -10,6 +10,7 @@
 , guest_name ? "baremetal"
 , platform_cfg
 , baremetal_srcs_path ? " "
+, tests_path ? " "
 , list_tests ? " "
 , list_suites ? " "
 , log_level ? "2"
@@ -38,20 +39,38 @@ stdenv.mkDerivation rec {
     nativeBuildInputs = [ toolchain]; #build time dependencies
     buildInputs = [python3 python3Packages.numpy rsync];
 
-    unpackPhase = ''
-        mkdir -p $out/guest_srcs
-        rsync -r $guest_srcs/ $out/guest_srcs
-    '';
+    unpackPhase = if tests_path == " " || tests_path == null then
+    ''
+        mkdir -p $out
+        rsync -r $guest_srcs/ $out
+    ''
+    else
+    ''
+        mkdir -p $out
+        rsync -r $guest_srcs/ $out
 
-    buildPhase = ''
+        mkdir -p  $out/tests
+        rsync -r ${tests_path}/ $out/tests
+    '';
+    
+    buildPhase = if tests_path == " " || tests_path == null then
+    ''
         export ARCH=${plat_arch}
-        export CROSS_COMPILE=${plat_toolchain}-
+        export CROSS_COMPILE=${plat_toolchain}
         make -C $out PLATFORM=${platform}
+    ''
+    else
+    ''
+        export ARCH=${plat_arch}
+        export CROSS_COMPILE=${plat_toolchain}
+        export TESTF_TESTS_DIR=$out/tests/src
+        export TESTF_REPO_DIR=$out/tests/bao-tests
+        make -C $out PLATFORM=${platform} BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} TESTF_LOG_LEVEL=${log_level}
     '';
 
     installPhase = ''
         mkdir -p $out/bin
-        cp $out/guest_srcs/build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
+        cp $out/build/${platform}/baremetal.bin $out/bin/${guest_name}.bin
     '';
 
 }
