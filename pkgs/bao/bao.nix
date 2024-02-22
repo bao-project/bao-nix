@@ -6,6 +6,7 @@
 , fetchurl
 , rsync
 , toolchain
+, bao_srcs_path ? " "
 , bao_cfg_repo
 , bao_cfg
 , platform_cfg
@@ -13,19 +14,25 @@
 }:
 
 stdenv.mkDerivation rec {
-    pname = "bao-remote";
+    # Derivation to build bao to run the bao test framework (as a guest)
+    # MUT: bao-hypervisor
+    pname = "bao-local";
     version = "1.0.0";
 
     platform = platform_cfg.platform_name;
     plat_arch = platform_cfg.platforms-arch.${platform};
     plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
-    srcs = fetchFromGitHub {
-        owner = "bao-project";
-        repo = "bao-hypervisor";
-        rev = "0575782359132465128491ab2fa44c16e76b57f8"; # branch: demo
-        sha256 = "sha256-pCsVpSOuCCQ86HbLbyGpi6nHi5dxa7hbQIuoemE/fSA=";
-    };
+    srcs = if bao_srcs_path == " " || bao_srcs_path == null then
+            fetchFromGitHub {
+                owner = "bao-project";
+                repo = "bao-hypervisor";
+                rev = "0575782359132465128491ab2fa44c16e76b57f8"; # branch: demo
+                sha256 = "sha256-pCsVpSOuCCQ86HbLbyGpi6nHi5dxa7hbQIuoemE/fSA=";
+            }
+            else
+            bao_srcs_path;
+
     
     nativeBuildInputs = [ toolchain guests ]; #build time dependencies
     buildInputs = [ rsync ];
@@ -44,7 +51,7 @@ stdenv.mkDerivation rec {
             cp $guest/bin/*.bin $out/guests/
         done
     '';
-    
+
     buildPhase = ''
         cd $out/srcs
         export ARCH=${plat_arch}
