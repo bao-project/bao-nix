@@ -7,6 +7,8 @@
 , rsync
 , toolchain
 , bao_srcs_path
+, bao_cfg_repo
+, bao_cfg
 , platform_cfg
 , guests
 }:
@@ -26,6 +28,7 @@ stdenv.mkDerivation rec {
     nativeBuildInputs = [ toolchain guests ]; #build time dependencies
     buildInputs = [ rsync ];
 
+    bao_build_cfg = if bao_cfg == " " then platform else bao_cfg;
 
     unpackPhase = ''
         mkdir -p $out
@@ -49,14 +52,14 @@ stdenv.mkDerivation rec {
 
         # Build Bao
         make PLATFORM=${platform}\
-             CONFIG_REPO=./config\
-             CONFIG=config\
-             CPPFLAGS=-DBAO_WRKDIR_IMGS=./guests
+             CONFIG_REPO=$out/configs\
+             CONFIG=$bao_build_cfg\
+             CPPFLAGS=-DBAO_WRKDIR_IMGS=$out/guests
     '';
     
     installPhase = ''
         mkdir -p $out/bao
-        cp -r ./bin/${platform}/config/bao.bin $out/bao
+        cp -r ./bin/${platform}/${bao_build_cfg}/bao.bin $out/bao
     '';
 
 }
