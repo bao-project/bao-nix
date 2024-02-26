@@ -6,7 +6,6 @@
 , toolchain
 , openssl
 , platform
-, bao_build
 , bash
 }:
 
