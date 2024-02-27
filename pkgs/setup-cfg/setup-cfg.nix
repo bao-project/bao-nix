@@ -4,6 +4,9 @@
 { 
     pkgs ? import <nixpkgs> {} 
     , platform ? " "
+    , bao-tests ? " " 
+    , tests_srcs ? " " 
+    , baremetal_patch ? " " 
 }:
 let
     platforms-arch = {
@@ -37,4 +40,7 @@ in {
     platform_name = "${platform}";
     arch = platforms-arch.${platform};
     toolchain_name = platforms-toolchain.${platform};
+    bao-tests = bao-tests;
+    tests_srcs = tests_srcs;
+    baremetal_patch = baremetal_patch;
 }
