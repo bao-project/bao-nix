@@ -9,7 +9,7 @@
 , bao_srcs_path ? " "
 , bao_cfg_repo
 , bao_cfg
-, platform_cfg
+, system-cfg
 , guests
 }:
 
@@ -19,9 +19,9 @@ stdenv.mkDerivation rec {
     pname = "bao-local";
     version = "1.0.0";
 
-    platform = platform_cfg.platform_name;
-    plat_arch = platform_cfg.platforms-arch.${platform};
-    plat_toolchain = platform_cfg.platforms-toolchain.${platform};
+    #platform = platform_cfg.platform_name;
+    #plat_arch = platform_cfg.platforms-arch.${platform};
+    #plat_toolchain = platform_cfg.platforms-toolchain.${platform};
 
     srcs = if bao_srcs_path == " " || bao_srcs_path == null then
             fetchFromGitHub {
@@ -37,7 +37,9 @@ stdenv.mkDerivation rec {
     nativeBuildInputs = [ toolchain guests ]; #build time dependencies
     buildInputs = [ rsync ];
 
-    bao_build_cfg = if bao_cfg == " " then platform else bao_cfg;
+    bao_build_cfg = if bao_cfg == " " 
+                        then system-cfg.platform_name 
+                        else bao_cfg;
 
     unpackPhase = ''
         mkdir -p $out
@@ -54,12 +56,12 @@ stdenv.mkDerivation rec {
 
     buildPhase = ''
         cd $out/srcs
-        export ARCH=${plat_arch}
-        export CROSS_COMPILE=${plat_toolchain}-
+        export ARCH=${system-cfg.arch} 
+        export CROSS_COMPILE=${system-cfg.toolchain_name}-
 
 
         # Build Bao
-        make PLATFORM=${platform}\
+        make PLATFORM=${system-cfg.platform_name} \
              CONFIG_REPO=$out/configs\
              CONFIG=$bao_build_cfg\
              CPPFLAGS=-DBAO_WRKDIR_IMGS=$out/guests
@@ -67,7 +69,7 @@ stdenv.mkDerivation rec {
     
     installPhase = ''
         mkdir -p $out/bao
-        cp -r ./bin/${platform}/${bao_build_cfg}/bao.bin $out/bao
+        cp -r ./bin/${system-cfg.platform_name}/${bao_build_cfg}/bao.bin $out/bao
     '';
 
 }
