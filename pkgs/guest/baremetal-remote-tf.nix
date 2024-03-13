@@ -39,6 +39,8 @@ stdenv.mkDerivation rec {
         cp -r ${system-cfg.bao-tests}/* $out/tests/bao-tests
         cp -r ${system-cfg.tests_srcs}/* $out/tests/src
         chmod -R u+w $out/tests/
+        cd $out/tests/bao-tests/framework
+        python3 codegen.py -dir $out/tests/src -o $out/tests/bao-tests/src/testf_entry.c
         cd $out
     '';
 
