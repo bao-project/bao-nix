@@ -36,6 +36,10 @@ stdenv.mkDerivation rec {
         else
             baremetal_srcs_path;
 
+    baremetal_patch = if baremetal_srcs_path == " " || baremetal_srcs_path == null then
+            setup-cfg.baremetal_patch
+        else null;
+
     nativeBuildInputs = [ toolchain]; #build time dependencies
     buildInputs = [python3 python3Packages.numpy rsync];
 
@@ -47,10 +51,22 @@ stdenv.mkDerivation rec {
     else
     ''
         mkdir -p $out
-        rsync -r $guest_srcs/ $out
-
         mkdir -p  $out/tests
-        rsync -r ${tests_path}/ $out/tests
+        mkdir -p $out/tests/src
+        mkdir -p $out/tests/bao-tests
+
+
+        rsync -r $guest_srcs/ $out
+        rsync -r ${setup-cfg.tests_srcs}/* $out/tests/src
+        rsync -r ${setup-cfg.bao-tests}/* $out/tests/bao-tests
+
+        chmod -R +rwx $out
+        cd $out/tests/bao-tests/framework
+        python3 codegen.py -dir $out/tests/src -o $out/tests/bao-tests/src/testf_entry.c
+
+        cd $out
+        patch -p1 < $baremetal_patch
+        
     '';
     
     buildPhase = if tests_path == " " || tests_path == null then
