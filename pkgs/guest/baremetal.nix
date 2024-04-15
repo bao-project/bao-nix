@@ -56,13 +56,13 @@ stdenv.mkDerivation rec {
     buildPhase = if tests_path == " " || tests_path == null then
     ''
         export ARCH=${plat_arch}
-        export CROSS_COMPILE=${plat_toolchain}
+        export CROSS_COMPILE=${plat_toolchain}-
         make -C $out PLATFORM=${platform}
     ''
     else
     ''
         export ARCH=${plat_arch}
-        export CROSS_COMPILE=${plat_toolchain}
+        export CROSS_COMPILE=${plat_toolchain}-
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
         make -C $out PLATFORM=${platform} BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} TESTF_LOG_LEVEL=${log_level}
