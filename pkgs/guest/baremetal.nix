@@ -7,8 +7,8 @@
 , python3
 , python3Packages
 , rsync
+, setup-cfg
 , guest_name ? "baremetal"
-, platform_cfg
 , baremetal_srcs_path ? " "
 , tests_path ? " "
 , list_tests ? " "
@@ -22,9 +22,9 @@ stdenv.mkDerivation rec {
     pname = guest_name;
     version = "1.0.0";
 
-    platform = platform_cfg.platform_name;
-    plat_arch = platform_cfg.platforms-arch.${platform};
-    plat_toolchain = platform_cfg.platforms-toolchain.${platform};
+    platform = setup-cfg.platform_name;
+    plat_arch = setup-cfg.arch;
+    plat_toolchain = setup-cfg.toolchain_name;
 
     guest_srcs = if baremetal_srcs_path == " " || baremetal_srcs_path == null then
         fetchFromGitHub {
