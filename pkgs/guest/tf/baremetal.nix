@@ -26,8 +26,8 @@ stdenv.mkDerivation rec {
         fetchFromGitHub {
             owner = "bao-project";
             repo = "bao-baremetal-guest";
-            rev = "4010db4ba5f71bae72d4ceaf4efa3219812c6b12"; # branch demo
-            sha256 = "sha256-aiKraDtjv+n/cXtdYdNDKlbzOiBxYTDrMT8bdG9B9vU=";
+            rev = "c7973b4cbbfee1baecd6e0705261d5c4a01d3318";
+            sha256 = "sha256-uXJi9ow87P798JrztsB0BeAhqEW5Fnsx2uHfrUvPCwk=";
         }
         else
             baremetal_srcs_path;
