@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
     buildPhase = ''
         export CROSS_COMPILE=aarch64-none-elf-
         make PLAT=qemu bl1 fip BL33=${u-boot}/bin/u-boot.bin\
-             QEMU_USE_GIC_DRIVER=${gic-version}
+             QEMU_USE_GIC_DRIVER=QEMU_${gic-version}
     '';
     
     installPhase = ''
