@@ -11,20 +11,21 @@
 , bao_cfg
 , setup-cfg
 , guests
+, irq_controller
 }:
 
 stdenv.mkDerivation rec {
     # Derivation to build bao to run the bao test framework (as a guest)
     # MUT: bao-hypervisor
-    pname = "bao-local";
+    pname = "bao";
     version = "1.0.0";
 
     srcs = if bao_srcs_path == " " || bao_srcs_path == null then
             fetchFromGitHub {
                 owner = "bao-project";
                 repo = "bao-hypervisor";
-                rev = "0575782359132465128491ab2fa44c16e76b57f8"; # branch: demo
-                sha256 = "sha256-pCsVpSOuCCQ86HbLbyGpi6nHi5dxa7hbQIuoemE/fSA=";
+                rev = "692fab8ccfcdb9cffb52f8793e798a0220e7d550";
+                sha256 = "sha256-LOrTZvAAA8ABnw/R+kqKBq8X6mXLTVsz/XfAJTQP2NA=";
             }
             else
             bao_srcs_path;
