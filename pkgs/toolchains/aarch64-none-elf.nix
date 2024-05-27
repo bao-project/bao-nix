@@ -10,12 +10,12 @@
 
 stdenv.mkDerivation rec {
   pname = "aarch64-none-elf";
-  version = "11.3.rel1";
+  version = "13.2.rel1";
   platform = "x86_64";
 
   src = fetchurl {
     url = "https://developer.arm.com/-/media/Files/downloads/gnu/${version}/binrel/arm-gnu-toolchain-${version}-${platform}-aarch64-none-elf.tar.xz";
-    sha256 = "sha256-+55WKpDeGzopYblSGTwcZSCHKqFILApeCreZcOxudpA=";
+    sha256 = "sha256-f+e4VIJY8HnWzpvpFE0qEL0r+TtVHa+/IP5/LkTgFLg=";
   };
 
   dontConfigure = true;
