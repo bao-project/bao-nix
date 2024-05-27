@@ -56,12 +56,22 @@ stdenv.mkDerivation rec {
         export ARCH=${setup-cfg.arch} 
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
 
-
         # Build Bao
-        make PLATFORM=${setup-cfg.platform_name} \
-             CONFIG_REPO=$out/configs\
-             CONFIG=$bao_build_cfg\
-             CPPFLAGS=-DBAO_WRKDIR_IMGS=$out/guests
+        if [ "$ARCH" = "aarch64" ]; then
+            make PLATFORM=${setup-cfg.platform_name} \
+                CONFIG_REPO=$out/configs \
+                CONFIG=$bao_build_cfg \
+                CPPFLAGS=-DBAO_WRKDIR_IMGS=$out/guests \
+                GIC_VERSION=${irq_controller}
+
+        elif [ "$ARCH" = "riscv64" ]; then
+            IFS=' ' read -r IRQC_IRQC IRQC_IPIC <<< "${irq_controller}"
+            make PLATFORM=${setup-cfg.platform_name} \
+                CONFIG_REPO=$out/configs \
+                CONFIG=$bao_build_cfg \
+                CPPFLAGS=-DBAO_WRKDIR_IMGS=$out/guests \
+                IRQC=$IRQC_IRQC IPIC=IPIC_SBI
+        fi
     '';
     
     installPhase = ''
