@@ -14,6 +14,7 @@
 , list_tests ? " "
 , list_suites ? " "
 , log_level ? "2"
+, irq_controller ? " "
 }:
 
 stdenv.mkDerivation rec {
@@ -62,7 +63,16 @@ stdenv.mkDerivation rec {
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
-        make -C $out PLATFORM=${setup-cfg.platform_name} BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} TESTF_LOG_LEVEL=${log_level}
+        if [ ARCH == "aarch64" ]; then
+            make -C $out PLATFORM=${setup-cfg.platform_name} \
+                BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
+                TESTF_LOG_LEVEL=${log_level} \
+                GIC_VERSION=${irq_controller}
+        else
+            make -C $out PLATFORM=${setup-cfg.platform_name} \
+                BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
+                TESTF_LOG_LEVEL=${log_level}
+        fi
     '';
 
     installPhase = ''
