@@ -10,6 +10,7 @@
 , setup-cfg
 , guest_name ? "baremetal"
 , baremetal_srcs_path ? " "
+, irq_controller ? " "
 }:
 
 stdenv.mkDerivation rec {
@@ -40,7 +41,12 @@ stdenv.mkDerivation rec {
     buildPhase = ''
         export ARCH=${setup-cfg.arch}
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
-        make -C $out PLATFORM=${setup-cfg.platform_name}
+        if [ ARCH == "aarch64" ]; then
+        make -C $out PLATFORM=${setup-cfg.platform_name} \
+                GIC_VERSION=${irq_controller}
+        else
+            make -C $out PLATFORM=${setup-cfg.platform_name}
+        fi
     '';
 
     installPhase = ''
