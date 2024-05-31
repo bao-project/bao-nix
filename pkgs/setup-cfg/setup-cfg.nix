@@ -7,6 +7,9 @@
     , bao-tests ? " " 
     , tests_srcs ? " " 
     , baremetal_patch ? " " 
+    , GIC_VERSION ? " "
+    , IRQC ? " "
+    , IPIC ? " "
 }:
 let
     platforms-arch = {
@@ -43,4 +46,8 @@ in {
     bao-tests = bao-tests;
     tests_srcs = tests_srcs;
     baremetal_patch = baremetal_patch;
+
+    irq_flags = if platforms-arch.${platform} == "riscv64" then
+        "IRQC=${IRQC} IPIC=${IPIC}"
+    else "GIC_VERSION=${GIC_VERSION}";
 }
