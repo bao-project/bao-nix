@@ -14,7 +14,6 @@
 , list_tests ? " "
 , list_suites ? " "
 , log_level ? "2"
-, irq_controller ? " "
 }:
 
 stdenv.mkDerivation rec {
@@ -67,7 +66,7 @@ stdenv.mkDerivation rec {
             make -C $out PLATFORM=${setup-cfg.platform_name} \
                 BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
                 TESTF_LOG_LEVEL=${log_level} \
-                GIC_VERSION=${irq_controller}
+                ${setup-cfg.irq_flags}
         else
             make -C $out PLATFORM=${setup-cfg.platform_name} \
                 BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
