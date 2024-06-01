@@ -5,7 +5,7 @@
 , fetchFromGitHub
 , toolchain
 , platform
-, IRQC ? "QEMU_GICV3"
+, gic-version ? "QEMU_GICV3"
 }:
 let
   u-boot = pkgs.callPackage ./u-boot/u-boot.nix 
@@ -17,7 +17,7 @@ let
     inherit toolchain;
     inherit u-boot; 
     inherit platform;
-    gic-version = IRQC;
+    inherit gic-version;
   };
 in
 stdenv.mkDerivation rec {
