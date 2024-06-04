@@ -5,6 +5,7 @@
 , fetchFromGitHub
 , toolchain
 , platform
+, setup-cfg
 }:
 let
   sbi = pkgs.callPackage ./openSBI/openSBI.nix {
