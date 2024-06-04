@@ -7,7 +7,7 @@
 , u-boot
 , openssl
 , platform
-, gic-version ? "QEMU_GICV3"
+, setup-cfg
 }:
 
 stdenv.mkDerivation rec {
@@ -25,8 +25,9 @@ stdenv.mkDerivation rec {
 
     buildPhase = ''
         export CROSS_COMPILE=aarch64-none-elf-
+        gic_version=$(echo "${setup-cfg.irq_flags}" | grep -oP '(?<=GIC_VERSION=)[^ ]+')
         make PLAT=qemu bl1 fip BL33=${u-boot}/bin/u-boot.bin\
-             QEMU_USE_GIC_DRIVER=QEMU_${gic-version}
+             QEMU_USE_GIC_DRIVER=QEMU_$gic_version
     '';
     
     installPhase = ''
