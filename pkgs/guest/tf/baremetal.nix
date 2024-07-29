@@ -62,7 +62,7 @@ stdenv.mkDerivation rec {
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
-        if [ ARCH == "aarch64" ]; then
+         if [ "ARCH" == "aarch64" ]; then
             make -C $out PLATFORM=${setup-cfg.platform_name} \
                 BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
                 TESTF_LOG_LEVEL=${log_level} \
