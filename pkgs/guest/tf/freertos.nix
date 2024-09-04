@@ -60,7 +60,7 @@ stdenv.mkDerivation rec {
         export FREERTOS_PARAMS="STD_ADDR_SPACE=y"
         if [ "$ARCH" = "aarch64" ]; then
             make -C $out PLATFORM=${setup-cfg.platform_name} \
-                BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
+                BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level} \
                 ${setup-cfg.irq_flags} $FREERTOS_PARAMS
         else
