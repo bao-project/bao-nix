@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
     # Derivation to build the baremetal-guest to run the bao test framework
     # MUT: baremetal-guest
     pname = guest_name;
-    version = "1.0.0";
+    version = "1.1.0";
 
     guest_srcs = if baremetal_srcs_path == " " || baremetal_srcs_path == null then
         fetchgit {
@@ -38,12 +38,11 @@ stdenv.mkDerivation rec {
 
     unpackPhase = ''
         mkdir -p $out
-        mkdir -p  $out/tests
+        mkdir -p $out/tests
         mkdir -p $out/tests/src
         mkdir -p $out/tests/bao-tests
 
-
-        rsync -r $guest_srcs/ $out
+        cp -r ${guest_srcs}/* $out
         rsync -r ${setup-cfg.tests_srcs}/* $out/tests/src
         rsync -r ${setup-cfg.bao-tests}/* $out/tests/bao-tests
 
@@ -61,12 +60,12 @@ stdenv.mkDerivation rec {
 
         if [ "$ARCH" == "aarch64" ]; then
             make -C $out PLATFORM=${setup-cfg.platform_name} \
-                BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
+                BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level} \
                 ${setup-cfg.irq_flags}
         else
             make -C $out PLATFORM=${setup-cfg.platform_name} \
-                BAO_TEST=1 SUITES=${list_suites} TESTS=${list_tests} \
+                BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level}
         fi
     '';
