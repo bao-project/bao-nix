@@ -1,6 +1,3 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright (c) Bao Project and Contributors. All rights reserved.
-
 { stdenv
 , setup-cfg
 , toolchain
@@ -9,14 +6,27 @@
 , dtc
 , fakeroot
 , rsync
+, python3
+, python3Packages
 , linuxImage
 , initramfs
 , dtb
-
 }:
 
-stdenv.mkDerivation rec {
+let
 
+  # Define the fdt Python package
+  fdt = python3Packages.buildPythonPackage rec {
+    pname = "fdt";
+    version = "0.3.3"; # Replace with the appropriate version
+
+    src = python3Packages.fetchPypi {
+      inherit pname version;
+      sha256 = "1li6vxgjvzvfrc3zwabiy0a3xdav21sg9i0k964vhapg1y9ib8l1"; # Replace with the correct hash
+    };
+  };
+in
+stdenv.mkDerivation rec {
     pname = "linux";
     version = "1.0.0";
 
@@ -24,10 +34,10 @@ stdenv.mkDerivation rec {
         owner = "bao-project";
         repo = "bao-static-guest-loader";
         rev = "exp/separate_initramfs"; # The branch to fetch
-        sha256 = "sha256-MVsrtgwjnTvrLWqssDFyHNNBJwm1ZMmDg1T2cmWEkUM=";
+        sha256 = "sha256-qkQzF8KNdp9Gju3QZzSim4k7xFpcSN8aAVBtD4umlsg=";
     };
 
-    nativeBuildInputs = [ toolchain ];
+    nativeBuildInputs = [ toolchain python3 fdt ];
     buildInputs = [ dtc fakeroot ];
 
     target = "linux";
@@ -55,5 +65,4 @@ stdenv.mkDerivation rec {
         mkdir -p $out/bin
         cp linux.bin $out/bin/linux.bin   
     '';
-
 }
