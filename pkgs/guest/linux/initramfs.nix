@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
 
     linux_image = builtins.path {
         #TODO: change cpio source url
-        path = /home/mafs/bao-demos/images/output/pack.tar.gz;
+        path = /media/diogo/linux_rootfs_2/bao_dev/bao-linux-test/wrkdir/pack.tar.gz;
     };
 
     buildInputs = [ cpio fakeroot ];
@@ -29,10 +29,11 @@ stdenv.mkDerivation rec {
     buildPhase = ''
         mkdir -p initramfs
         cd initramfs 
-        cpio -idm  < ../rootfs.cpio || true
+        cpio -idm < ../rootfs.cpio || true
         chmod +x init bin/busybox sbin/init bin/sh
+        mkdir -p home/testf
         cp ${linuxApp}/bin/program.out home/testf/testf-app.out
-        find . | cpio -o -H newc --owner root:root > ../new.cpio
+        find . | fakeroot cpio -o -H newc --owner root:root > ../new.cpio
         cd ..
     '';
 
