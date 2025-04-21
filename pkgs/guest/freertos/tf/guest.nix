@@ -10,7 +10,7 @@
 , setup-cfg
 , guest_name ? "freertos"
 , freertos_srcs_path ? " "
-, tests_path ? " "
+# , tests_path ? " "
 , list_tests ? " "
 , list_suites ? " "
 , log_level ? "2"
@@ -25,8 +25,8 @@ stdenv.mkDerivation rec {
         guest_srcs = if freertos_srcs_path == " " || freertos_srcs_path == null then
         fetchgit {
             url = "https://github.com/bao-project/bao-freertos-test";
-            rev = "b10f6d69551f3c74eccd0439dd6b58e65794a0e4";
-            sha256 = "sha256-iRI0z1dbmSO2JYKqBUrhJSnZzr6Np090zeDT53VB2O8=";
+            rev = "e97e14df5cdea18f538612c69da1e8a2324407f5";
+            sha256 = "sha256-6oYkQpYfwX9hMJ11/npdAEhu7PH9WFFFVxRNs5yzBJU=";
             fetchSubmodules = true;
         }
         else
@@ -58,15 +58,14 @@ stdenv.mkDerivation rec {
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
         export FREERTOS_PARAMS="STD_ADDR_SPACE=y"
-        
-        if [ "$ARCH" == "aarch64" ]; then
+        if [ "$ARCH" = "aarch64" ]; then
             make -C $out PLATFORM=${setup-cfg.platform_name} \
                 BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level} \
                 ${setup-cfg.irq_flags} $FREERTOS_PARAMS
         else
             make -C $out PLATFORM=${setup-cfg.platform_name} \
-                BAO_TEST=1 SUITES="${list_suites}" TESTS=${list_tests}" \
+                BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level} $FREERTOS_PARAMS
         fi
     '';
