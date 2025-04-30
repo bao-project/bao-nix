@@ -2,7 +2,7 @@
 # Copyright (c) Bao Project and Contributors. All rights reserved.
 
 { stdenv
-, fetchgit
+, fetchurl
 , rsync
 , setup-cfg
 }:
@@ -11,9 +11,9 @@ stdenv.mkDerivation rec {
     pname = "linux-image";
     version = "1.0.0";
 
-    linux_image = builtins.path {
-        #TODO: change image url. Should come from a release in bao-linux-guest
-        path = /home/mafs/bao-demos/images/output/pack.tar.gz;
+    linux_image = fetchurl {
+        url = "https://github.com/bao-project/bao-linux-test/releases/download/v1.0.0-${setup-cfg.platform_name}/Image-${setup-cfg.platform_name}.tar.gz";
+        sha256 = "sha256-m8fY1Rujy8f8z0Bb4kyK6bk5ItZRDCFxWXf4wEeqD3g=";
     };
 
     buildInputs = [ ];
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     
     installPhase = ''
         mkdir -p $out/image
-        cp -r Im* $out/image/LinuxImage    
+        cp -r wrkdir/Im* $out/image/LinuxImage    
     '';
 
 }
