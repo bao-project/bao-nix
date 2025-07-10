@@ -42,23 +42,20 @@ stdenv.mkDerivation rec {
 
     target = "linux";
 
+    arch = if setup-cfg.arch == "riscv64" then "riscv" else setup-cfg.arch;
+
     buildPhase = ''
         export LINUX_IMAGE=${linuxImage}/image/LinuxImage
         export INITRAMFS=${initramfs}/cpio/rootfs.cpio
         export DTB=${dtb}/dtb/output.dtb
         export TARGET=${target}
 
-        echo "Using Linux Image from: $LINUX_IMAGE"
-        echo "Using Initramfs from: $INITRAMFS"
-        echo "Using DTB from: $DTB"
-        echo "Using Target: $TARGET"
-
         make \
         IMAGE=$LINUX_IMAGE \
         DTB=$DTB \
         TARGET=$TARGET \
         INITRAMFS=$INITRAMFS \
-        ARCH=aarch64
+        ARCH=${arch}
     '';
 
     installPhase = ''

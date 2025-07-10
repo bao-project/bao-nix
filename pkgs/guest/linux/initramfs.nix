@@ -11,6 +11,13 @@
 , linuxApp
 }:
 
+let
+  platform_image = {
+    "qemu-aarch64-virt" = "sha256-Rpe9phmrBJpmi/7sB3uPwxNRME+ZUtrGcMq/OvaULRc=";
+    "qemu-riscv64-virt" = "sha256-uN8lyoVo4VPcmqKCiKHk4TzMMfAfuUStXVKLV1jiHB0=";
+  };
+in
+
 stdenv.mkDerivation rec {
 
     pname = "initramfs";
@@ -18,7 +25,7 @@ stdenv.mkDerivation rec {
 
     linux_image = fetchurl {
         url = "https://github.com/bao-project/bao-linux-test/releases/download/v1.0.0-${setup-cfg.platform_name}/initramfs_${setup-cfg.platform_name}.tar.gz";
-        sha256 = "sha256-Rpe9phmrBJpmi/7sB3uPwxNRME+ZUtrGcMq/OvaULRc=";
+        sha256 = platform_image.${setup-cfg.platform_name} or (throw "Unsupported platform: ${setup-cfg.platform_name}");
     };
 
     buildInputs = [ cpio fakeroot ];
