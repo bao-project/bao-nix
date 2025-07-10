@@ -72,7 +72,7 @@ stdenv.mkDerivation rec {
 
     installPhase = ''
         mkdir -p $out/bin
-        cp $out/build/${setup-cfg.platform_name}/freertos.bin $out/bin/${guest_name}.bin
+        cp ./build/${setup-cfg.platform_name}/freertos.bin $out/bin/${guest_name}.bin
     '';
 
 }
