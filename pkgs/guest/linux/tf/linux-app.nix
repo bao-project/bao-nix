@@ -45,13 +45,13 @@ stdenv.mkDerivation rec {
     
     buildPhase = ''
         export ARCH=${setup-cfg.arch}
-        export CROSS_COMPILE=aarch64-none-linux-gnu
+        export CROSS_COMPILE=${setup-cfg.linux_toolchain_name}
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
 
         make BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level} \
-                ${setup-cfg.irq_flags} 
+                ${setup-cfg.irq_flags} TESTF_NO_RTE=1 
     '';
 
     installPhase = ''

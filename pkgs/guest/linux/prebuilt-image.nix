@@ -7,13 +7,20 @@
 , setup-cfg
 }:
 
+let
+  platform_image = {
+    "qemu-aarch64-virt" = "sha256-m8fY1Rujy8f8z0Bb4kyK6bk5ItZRDCFxWXf4wEeqD3g=";
+    "qemu-riscv64-virt" = "sha256-y6oIOSvIoJUUy0wODYJMiAznUBRkJFCQwCiomEHVdj8=";
+  };
+in
+
 stdenv.mkDerivation rec {
     pname = "linux-image";
     version = "1.0.0";
 
     linux_image = fetchurl {
         url = "https://github.com/bao-project/bao-linux-test/releases/download/v1.0.0-${setup-cfg.platform_name}/Image-${setup-cfg.platform_name}.tar.gz";
-        sha256 = "sha256-m8fY1Rujy8f8z0Bb4kyK6bk5ItZRDCFxWXf4wEeqD3g=";
+        sha256 = platform_image.${setup-cfg.platform_name} or (throw "Unsupported platform: ${setup-cfg.platform_name}");
     };
 
     buildInputs = [ ];

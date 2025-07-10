@@ -20,8 +20,8 @@ stdenv.mkDerivation rec {
   arch = "x86_64";
 
   src = fetchurl {
-    url = "https://github.com/bao-project/bao-riscv-toolchain/releases/download/gc891d8dc23e/riscv-unknown-elf-13.2.0-ubuntu-22.04.tar.gz";
-    sha256 = "sha256-MMKEFVwIl3wGwSZDHmvpVzEWsgpc6ePaX5kTrzyVfL0=";
+    url = "https://github.com/bao-project/bao-riscv-toolchain/releases/download/gc891d8dc23e/riscv64-unknown-linux-gnu-13.2.0-ubuntu-22.04.tar.gz";    
+    sha256 = "sha256-JqfZmZtyTSYanzCyA0YYd+jV86g0PPojYlcdArMUqXY=";
   };
 
   nativeBuildInputs = [ zlib ]; #build time dependencies
