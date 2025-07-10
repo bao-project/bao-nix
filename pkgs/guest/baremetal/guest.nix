@@ -34,14 +34,14 @@ stdenv.mkDerivation rec {
 
     unpackPhase = ''
         mkdir -p $out
-        rsync -r $guest_srcs/ $out        
+        rsync -a $guest_srcs/ $out        
     '';
     
     buildPhase = ''
         export ARCH=${setup-cfg.arch}
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
-        if [ "$ARCH" == "aarch64" ]; then
-        make -C $out PLATFORM=${setup-cfg.platform_name} \
+        if [ "$ARCH" = "aarch64" ]; then
+            make -C $out PLATFORM=${setup-cfg.platform_name} \
                 ${setup-cfg.irq_flags}
         else
             make -C $out PLATFORM=${setup-cfg.platform_name}
