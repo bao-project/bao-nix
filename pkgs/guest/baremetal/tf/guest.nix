@@ -25,8 +25,8 @@ stdenv.mkDerivation rec {
     guest_srcs = if baremetal_srcs_path == " " || baremetal_srcs_path == null then
         fetchgit {
             url = "https://github.com/bao-project/bao-baremetal-test";
-            rev = "b7e83d04f49f8c98581ce8d18bb7ea8a7a6ba589";
-            sha256 = "sha256-oDKm8yxtqDvbCrZ5gnrVDEaKtFFu5WS0GYtkcJAtbbA=";
+            rev = "d32ac417fc7057f1ff510d48a35fb8ec0cde79cd";
+            sha256 = "sha256-E9TWtO3jPWttPOf9ZDUistJam6fP8dWQysyYWhIyekQ=";
             fetchSubmodules = true;
         }
         else
