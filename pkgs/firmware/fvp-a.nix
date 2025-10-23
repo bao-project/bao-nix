@@ -12,6 +12,7 @@ let
   {
     inherit toolchain;
     inherit platform;
+    inherit setup-cfg;
   };
 
   atf = pkgs.callPackage ./atf/atf.nix {
@@ -22,7 +23,7 @@ let
   };
 in
 stdenv.mkDerivation rec {
-    pname = "qemu_aarch64_virt";
+    pname = "fvp-a-aarch32";
     version = "firmware";
 
     dontUnpack = true;
