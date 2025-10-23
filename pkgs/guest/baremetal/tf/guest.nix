@@ -60,7 +60,7 @@ stdenv.mkDerivation rec {
 
         # if platform is fvp-aarch64 or fvp-aarch32, set the MEM_BASE parameter
         if [ "${setup-cfg.platform_name}" == "fvp-a" ] || [ "${setup-cfg.platform_name}" == "fvp-r" ]; then
-            export BAREMETAL_PARAMS="MEM_BASE=0x80000000"
+            export BAREMETAL_PARAMS="MEM_BASE=0x10000000"
         fi
 
         if [ "$ARCH" == "aarch64" ]; then
