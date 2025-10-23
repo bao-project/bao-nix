@@ -23,8 +23,8 @@ stdenv.mkDerivation rec {
             fetchFromGitHub {
                 owner = "bao-project";
                 repo = "bao-hypervisor";
-                rev = "c97ce05b29fab1f84319bb5159f79c0b7c486ac7";
-                sha256 = "sha256-ntdqW0N5sjardpTgyl2sIVCDQdoLRVfp/yXGU4fARHs=";
+                rev = "692fab8ccfcdb9cffb52f8793e798a0220e7d550";
+                sha256 = "sha256-LOrTZvAAA8ABnw/R+kqKBq8X6mXLTVsz/XfAJTQP2NA=";
             }
             else
             bao_srcs_path;
