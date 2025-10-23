@@ -57,7 +57,11 @@ stdenv.mkDerivation rec {
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
-        export BAREMETAL_PARAMS="MEM_BASE=0x10000000"
+
+        # if platform is fvp-aarch64 or fvp-aarch32, set the MEM_BASE parameter
+        if [ "${setup-cfg.platform_name}" == "fvp-a" ] || [ "${setup-cfg.platform_name}" == "fvp-r" ]; then
+            export BAREMETAL_PARAMS="MEM_BASE=0x80000000"
+        fi
 
         if [ "$ARCH" == "aarch64" ]; then
             make -C $out PLATFORM=${setup-cfg.platform_name} $BAREMETAL_PARAMS \

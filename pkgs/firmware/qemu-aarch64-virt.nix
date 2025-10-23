@@ -12,6 +12,7 @@ let
   {
     inherit toolchain;
     inherit platform;
+    inherit setup-cfg;
   };
 
   atf = pkgs.callPackage ./atf/atf.nix {
