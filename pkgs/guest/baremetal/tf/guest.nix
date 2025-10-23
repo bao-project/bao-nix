@@ -57,9 +57,10 @@ stdenv.mkDerivation rec {
         export CROSS_COMPILE=${setup-cfg.toolchain_name}-
         export TESTF_TESTS_DIR=$out/tests/src
         export TESTF_REPO_DIR=$out/tests/bao-tests
+        export BAREMETAL_PARAMS="MEM_BASE=0x10000000"
 
         if [ "$ARCH" == "aarch64" ]; then
-            make -C $out PLATFORM=${setup-cfg.platform_name} \
+            make -C $out PLATFORM=${setup-cfg.platform_name} $BAREMETAL_PARAMS \
                 BAO_TEST=1 SUITES="${list_suites}" TESTS="${list_tests}" \
                 TESTF_LOG_LEVEL=${log_level} \
                 ${setup-cfg.irq_flags}
